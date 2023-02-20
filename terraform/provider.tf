@@ -5,4 +5,5 @@ provider "aws" {
     region = "us-east-1"
 }
 
-# aws eks --region us-east-1 update-kubeconfig --name iti-cluster --profile default
+
+# aws eks --region us-east-1 update-kubeconfig --name eks-iti
