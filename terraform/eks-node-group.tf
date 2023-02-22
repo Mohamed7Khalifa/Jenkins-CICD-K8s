@@ -20,7 +20,7 @@ POLICY
 
 resource "aws_iam_role_policy_attachment" "amazon_eks_worker_node_policy_general" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
-  role = aws_iam_role.nodes_general.name
+  role       = aws_iam_role.nodes_general.name
 }
 
 resource "aws_iam_role_policy_attachment" "amazon_eks_cni_policy_general" {
@@ -31,7 +31,7 @@ resource "aws_iam_role_policy_attachment" "amazon_eks_cni_policy_general" {
 
 resource "aws_iam_role_policy_attachment" "amazon_ec2_container_registry_read_only" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-  role = aws_iam_role.nodes_general.name
+  role       = aws_iam_role.nodes_general.name
 }
 
 resource "aws_eks_node_group" "nodes_general" {
@@ -74,7 +74,7 @@ resource "aws_eks_node_group" "nodes_general" {
     role = "nodes-general"
   }
 
-  version = "1.20"
+  version = "1.24"
 
   depends_on = [
     aws_iam_role_policy_attachment.amazon_eks_worker_node_policy_general,

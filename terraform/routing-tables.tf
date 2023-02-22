@@ -17,7 +17,7 @@ resource "aws_route_table" "private1" {
   route {
     cidr_block = "0.0.0.0/0"
 
-    nat_gateway_id = aws_nat_gateway.gw1.id
+    nat_gateway_id = aws_nat_gateway.nat_gw.id
   }
 
   tags = {
@@ -28,8 +28,8 @@ resource "aws_route_table" "private1" {
 resource "aws_route_table" "private2" {
   vpc_id = aws_vpc.main.id
   route {
-    cidr_block = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.gw2.id
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.nat_gw.id
   }
   tags = {
     Name = "private2"
