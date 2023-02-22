@@ -1,29 +1,19 @@
-- name: install docker
-  host:
-  become: yes
-  tasks:
-    - name: Install dependencies
-      apt:
-        name: "{{ item }}"
-        state: present
-      with_items:
-        - apt-transport-https
-        - ca-certificates
-        - curl
-        - gnupg
-        - lsb-release
+# - name: install and configure kubectl
+#   hosts: bastion
+#   roles:
+#     - roles/kubectl
 
-    - name: Add Docker GPG key
-      apt_key:
-        url: https://download.docker.com/linux/ubuntu/gpg
-        state: present
+# - name: install docker
+#   hosts: bastion
+#   become: yes
+#   roles:
+#     - roles/docker
 
-    - name: Add Docker repository
-      apt_repository:
-        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable"
-        state: present
+- name: install jenkins
+  hosts: bastion
+  roles:
+    - roles/k8s
 
-    - name: Install Docker
-      apt:
-        name: docker-ce
-        state: present
+# helm repo add jenkins https://charts.jenkins.io
+# helm repo update
+# helm install jenkins jenkins/jenkins

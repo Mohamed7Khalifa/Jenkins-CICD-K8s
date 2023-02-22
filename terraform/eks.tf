@@ -31,10 +31,21 @@ resource "aws_security_group" "cluster_sg" {
   vpc_id = aws_vpc.main.id
 
   ingress {
-    description = "value"
     from_port   = 443
     protocol    = "tcp"
     to_port     = 443
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = 80
+    protocol    = "tcp"
+    to_port     = 80
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = 8080
+    protocol    = "tcp"
+    to_port     = 8080
     cidr_blocks = ["0.0.0.0/0"]
   }
 

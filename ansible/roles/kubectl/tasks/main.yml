@@ -1,0 +1,70 @@
+---
+# tasks file for roles/kubectl
+- name: install required packages
+  become: true
+  apt:
+    name: unzip
+    state: present
+    update_cache: yes
+
+- name: Download aws zip
+  get_url:
+    url: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+    dest: ./awscliv2
+
+- name: Unzip the downloaded file
+  unarchive:
+    src: ./awscliv2
+    dest: .
+    remote_src: yes
+
+- name: install aws
+  shell: sudo ./aws/install
+
+- name: Create AWS credentials directory 
+  file:
+    path: ".aws"
+    state: directory
+
+- name: Create AWS credentials file
+  file:
+    path: ".aws/credentials"
+    state: touch
+
+- name: Add AWS credentials to ~/.aws/credentials
+  lineinfile:
+    path: .aws/credentials
+    line: |
+      [default]
+      aws_access_key_id = {{ aws_access_key }}
+      aws_secret_access_key = {{ aws_secret_key }}
+
+- name: Download and set execute permissions for kubectl
+  get_url:
+    url: https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.10/2023-01-30/bin/linux/amd64/kubectl
+    dest: /tmp/kubectl
+    mode: 'u+x'
+  register: kubectl_download
+
+- name: Create kubectl bin directory
+  file:
+    path: "{{ ansible_env.HOME }}/bin"
+    state: directory
+
+- name: Copy kubectl to bin directory
+  copy:
+    src: /tmp/kubectl
+    dest: "{{ ansible_env.HOME }}/bin/kubectl"
+    mode: 'u+x'
+    remote_src: yes
+
+- name: Add kubectl bin directory to PATH
+  lineinfile:
+    path: "{{ ansible_env.HOME }}/.bashrc"
+    line: 'export PATH=$PATH:{{ ansible_env.HOME }}/bin'
+    state: present
+    create: true
+  when: kubectl_download.changed
+
+- name: connect kubectl to aws cluster
+  shell: aws eks --region us-east-1 update-kubeconfig --name eks

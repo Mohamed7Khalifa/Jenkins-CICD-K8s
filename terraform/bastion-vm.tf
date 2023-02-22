@@ -10,6 +10,15 @@ resource "aws_instance" "bastion_vm" {
   tags = {
     Name = "jumphost"
   }
+  # provisioner "local-exec" {
+  #     command = "echo Public EC2 ip: ${self.public_ip} >> ./public_ip.txt"
+  #   }
+  # connection {
+  #   type     = "ssh"
+  #   user     = "ubuntu"
+  #   private_key = file("~/.EC2_instances/ansible.pem") 
+  #   host     = self.public_ip 
+  #   }
 }
 
 resource "aws_iam_instance_profile" "my_instance_profile" {
