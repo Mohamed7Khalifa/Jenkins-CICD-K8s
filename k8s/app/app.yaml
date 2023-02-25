@@ -1,0 +1,23 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lexalyzer
+  namespace: app-ns
+  labels:
+    app: lexalyzer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lexalyzer
+  template:
+    metadata:
+      labels:
+        app: lexalyzer
+    spec:
+      containers:
+      - name: lexalyzer
+        image: docker.io/mohamed7khalifa/lexalyzer:v1.1 
+        ports:
+        - containerPort: 80

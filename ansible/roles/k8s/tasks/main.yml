@@ -1,19 +1,26 @@
 ---
 # tasks file for roles/k8s
+- name: Create jenkins directory
+  file:
+    path: "jenkins"
+    state: directory
 
-# - name: Create jenkins directory
-#   file:
-#     path: "jenkins"
-#     state: directory
+- name: Copy the deployment file to remote machine
+  copy:
+    src: ./deployment.yaml
+    dest: ~/jenkins/
 
-# - name: Copy the deployment file to remote machine
-#   copy:
-#     src: ./deployment.yaml
-#     dest: ~/jenkins/
-# - name: Copy the service file to remote machine
-#   copy:
-#     src: ./service.yaml
-#     dest: ~/jenkins/
+- name: Copy the service file to remote machine
+  copy:
+    src: ./service.yaml
+    dest: ~/jenkins/
+
+- name: Copy the jenkins-permission file to remote machine
+  copy:
+    src: ./jenkins-permission.yaml
+    dest: ~/jenkins/
+
+
 
 # - name: Create a k8s namespace
 #   kubernetes.core.k8s:
@@ -21,12 +28,15 @@
 #     api_version: v1
 #     kind: Namespace
 #     state: present
+
 # ansible-galaxy collection install kubernetes.core
-- name: Create a Deployment by reading the definition from a local file
-  kubernetes.core.k8s:
-    state: present
-    src: ./deployment.yaml
-    # remote_src: yes
+
+
+# - name: Create a Deployment by reading the definition from a local file
+#   kubernetes.core.k8s:
+#     state: present
+#     src: ./deployment.yaml
+#     remote_src: yes
 
 
 

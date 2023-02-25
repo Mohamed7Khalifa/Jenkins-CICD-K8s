@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: jenkins
+  namespace: jenkins-ns
   labels:
     app: jenkins
 spec:
@@ -15,8 +16,20 @@ spec:
       labels:
         app: jenkins
     spec:
+      serviceAccountName: admin-sa
       containers:
       - name: jenkins
-        image: jenkins/jenkins:lts #nginx:1.14.2
+        image: jenkins/jenkins:lts # jenkins latest stable version
         ports:
         - containerPort: 8080
+        volumeMounts:
+          - name: jenkins-vol
+            mountPath: /var/jenkins_home
+          - name: docker
+            mountPath: /var/run
+      volumes:
+        - name: jenkins-vol
+          emptyDir: {}
+        - name: docker
+          hostPath:
+            path: /var/run

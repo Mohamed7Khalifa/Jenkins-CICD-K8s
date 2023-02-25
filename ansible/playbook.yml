@@ -3,16 +3,16 @@
 #   roles:
 #     - roles/kubectl
 
-# - name: install docker
+# - name: install jenkins
 #   hosts: bastion
-#   become: yes
 #   roles:
-#     - roles/docker
+#     - roles/k8s
 
-- name: install jenkins
-  hosts: bastion
+- name: install docker
+  hosts: worker_node
+  become: yes
   roles:
-    - roles/k8s
+    - roles/docker
 
 # helm repo add jenkins https://charts.jenkins.io
 # helm repo update
