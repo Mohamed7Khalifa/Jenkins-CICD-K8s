@@ -40,6 +40,11 @@ terraform apply
 ```
 **then this will create the infrastructure**
 
+![image info](Screenshot/aws.png)
+![image info](Screenshot/eks.png)
+![image info](Screenshot/eks-node.png)
+![image info](Screenshot/vm.png)
+
 - configure the aws profile with cli and export your AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY as environment variables in .bashrc
 
 - then run this command to run ansible configuration
@@ -92,6 +97,7 @@ ubuntu@ip-192-168-19-244:~/jenkins$ kubectl exec -it jenkins-6d98d8b79b-vxrcg -n
 root@jenkins-6d98d8b79b-vxrcg:/ cat /var/jenkins_home/secrets/initialAdminPassword
 4691db570bbe49bb8d188ca5b7717d87
 ```
+
 **put the password in jenkins and create your own user and install the suggested plugin**
 
 - then add your docker and github credentials to jenkins 
@@ -139,5 +145,8 @@ pipeline {
 **copy the loadbalancer dns to open lexalzer**
 
 ![image info](Screenshot/app-run.png)
+
+**loadbalancer dns for jenkins and lexalyzer**
+![image info](Screenshot/lb.png)
 
 # END
